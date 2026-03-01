@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grill ça. — Brochettes & Grillades · Corbeil-Essonnes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pacifico&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --red:    #cc1f1f;
+  --red2:   #991010;
+  --black:  #0a0a0a;
+  --grey1:  #141414;
+  --grey2:  #1e1e1e;
+  --grey3:  #2a2a2a;
+  --light:  #e8e0da;
+  --muted:  rgba(232,224,218,0.45);
+  --faint:  rgba(232,224,218,0.15);
+}
+
+body {
+  background: var(--black);
+  color: var(--light);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── GRAIN OVERLAY ─── */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9998; opacity:.7;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 3rem;
+  height: 64px;
+  background: rgba(10,10,10,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--faint);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  color: var(--light);
+  text-decoration:none;
+  display:flex; align-items:center; gap:.4rem;
+}
+.nav-logo span {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2rem;
+  color: var(--red);
+  letter-spacing: 0.02em;
+}
+
+.nav-links {
+  display:flex; gap:2.5rem; list-style:none;
+}
+.nav-links a {
+  font-family:'Outfit', sans-serif;
+  font-size:.78rem; font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase;
+  color: var(--muted); text-decoration:none;
+  transition: color .25s;
+  position:relative;
+}
+.nav-links a::after {
+  content:'';
+  position:absolute; bottom:-4px; left:0; right:0;
+  height:1px; background:var(--red);
+  transform:scaleX(0); transition:transform .25s;
+}
+.nav-links a:hover { color:var(--light); }
+.nav-links a:hover::after { transform:scaleX(1); }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 8rem 2rem 4rem;
+}
+
+.hero-bg {
+  position:absolute; inset:0; z-index:-2;
+}
+
+.hero-overlay {
+  position:absolute; inset:0; z-index:-1;
+  background:
+    linear-gradient(to bottom,
+      rgba(10,10,10,.88) 0%,
+      rgba(10,10,10,.60) 40%,
+      rgba(10,10,10,.72) 70%,
+      rgba(10,10,10,.97) 100%),
+    radial-gradient(ellipse at 50% 110%, rgba(180,15,15,.4) 0%, transparent 60%);
+}
+
+/* embers canvas */
+#embers {
+  position:absolute; inset:0; z-index:0;
+  pointer-events:none; overflow:hidden;
+  clip-path:inset(0);
+}
+.ember {
+  position:absolute; bottom:0; border-radius:50%;
+  animation: floatUp linear infinite; opacity:0;
+}
+@keyframes floatUp {
+  0%   { transform:translateY(0) translateX(0) scale(1); opacity:.6; }
+  30%  { opacity:.5; }
+  100% { transform:translateY(-90vh) translateX(var(--dx)) scale(.1); opacity:0; }
+}
+
+.hero-tag {
+  font-family:'Outfit', sans-serif;
+  font-size:.72rem; font-weight:600;
+  letter-spacing:.35em; text-transform:uppercase;
+  color:var(--red);
+  border:1px solid rgba(204,31,31,.35);
+  padding:.4rem 1.2rem;
+  margin-bottom:2rem;
+  display:inline-block;
+  animation: fadeUp .8s ease both;
+}
+
+.hero-title {
+  animation: fadeUp .8s .1s ease both;
+  line-height:.95;
+  margin-bottom:.2rem;
+}
+.hero-title .t1 {
+  display:block;
+  font-family:'Bebas Neue', sans-serif;
+  font-size: clamp(5rem,16vw,11rem);
+  letter-spacing:.08em;
+  color:var(--light);
+  text-shadow: 0 2px 30px rgba(0,0,0,.8);
+}
+.hero-title .t2 {
+  display:block;
+  font-family:'Pacifico', cursive;
+  font-size: clamp(4rem,13vw,9rem);
+  color:var(--red);
+  letter-spacing:.02em;
+  text-shadow: 0 0 60px rgba(204,31,31,.5), 0 2px 20px rgba(0,0,0,.9);
+}
+
+.hero-sub {
+  font-size:.85rem; font-weight:500;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:rgba(232,224,218,0.72);
+  margin-top:5rem; margin-bottom:3rem;
+  animation: fadeUp .8s .2s ease both;
+}
+
+.hero-infos {
+  display:flex; flex-wrap:wrap; gap:1rem;
+  justify-content:center;
+  animation: fadeUp .8s .3s ease both;
+}
+.hero-pill {
+  display:flex; align-items:center; gap:.6rem;
+  font-family:'Bebas Neue', sans-serif;
+  font-size:1.1rem; letter-spacing:.12em;
+  color:var(--light);
+  background:rgba(10,10,10,.75);
+  border:1px solid rgba(204,31,31,.25);
+  border-radius:50px;
+  padding:.6rem 1.6rem;
+  text-decoration:none;
+  backdrop-filter:blur(8px);
+  box-shadow: 0 0 18px rgba(180,15,15,.15), inset 0 1px 0 rgba(255,255,255,.05);
+  transition: background .25s, border-color .3s, box-shadow .3s, color .25s;
+}
+.hero-pill:hover {
+  background:rgba(180,20,20,.25);
+  border-color:rgba(204,31,31,.6);
+  box-shadow: 0 0 28px rgba(180,15,15,.3), inset 0 1px 0 rgba(255,255,255,.05);
+  color:#fff;
+}
+.hero-pill svg { fill:var(--red); width:15px; height:15px; flex-shrink:0; }
+
+.hero-badge {
+  margin-top:2rem;
+  font-family:'Outfit', sans-serif;
+  font-size:.82rem; letter-spacing:.12em;
+  color:var(--muted);
+  border-top:1px solid var(--faint);
+  padding-top:1.4rem;
+  animation: fadeUp .8s .4s ease both;
+}
+.hero-badge strong { color:var(--light); font-weight:600; }
+
+.hero-halal {
+  position: absolute;
+  bottom: 5.8rem;
+  right: 3rem;
+  width: 88px;
+  z-index: 1;
+  opacity: 0.92;
+  animation: fadeUp .8s .5s ease both;
+}
+
+/* ─── SHARED SECTION ─── */
+.section-wrap {
+  max-width:1100px; margin:0 auto; padding:0 2rem;
+}
+
+.sec-head {
+  text-align:center;
+  margin-bottom:3.5rem;
+}
+.sec-head h2 {
+  font-family:'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem,5vw,3.8rem);
+  letter-spacing:.08em;
+  color:var(--light);
+  line-height:1;
+}
+.sec-head .script {
+  font-family:'Pacifico', cursive;
+  color:var(--red);
+  font-size:clamp(1.6rem,3.5vw,2.6rem);
+  display:block;
+  margin-top:.1em;
+}
+.sec-rule {
+  width:40px; height:2px;
+  background:var(--red);
+  margin:.8rem auto 0;
+  opacity:.6;
+}
+
+/* ─── CARTE ─── */
+#carte { padding:6rem 2rem; background:var(--grey1); }
+
+.carte-inner {
+  max-width:480px; margin:0 auto; text-align:center;
+}
+.carte-hint-text {
+  font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:1.5rem;
+}
+.carte-thumb {
+  position:relative; display:inline-block; cursor:zoom-in;
+  border:1px solid rgba(150,145,140,.15); overflow:hidden;
+  transition: border-color .3s, transform .35s;
+}
+.carte-thumb:hover { border-color:rgba(204,31,31,.5); transform:scale(1.015); }
+.carte-thumb img { display:block; width:100%; border-radius:2px; }
+.carte-overlay {
+  position:absolute; inset:0;
+  background:rgba(204,31,31,0);
+  transition:background .3s; pointer-events:none;
+}
+.carte-pip {
+  position:absolute; bottom:10px; right:12px;
+  width:26px; height:26px; border-radius:50%;
+  border:1px solid rgba(255,255,255,0);
+  background:rgba(204,31,31,0);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; color:rgba(255,255,255,0);
+  transition:all .3s ease;
+}
+.carte-thumb:hover .carte-overlay { background:rgba(204,31,31,.06); }
+.carte-thumb:hover .carte-pip {
+  color:rgba(255,255,255,.85);
+  background:rgba(180,20,20,.55);
+  border-color:rgba(255,255,255,.2);
+}
+
+/* ─── MENU ─── */
+#menu { padding:6rem 2rem; background:var(--black); }
+
+.menu-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:2px;
+  max-width:1100px; margin:0 auto;
+}
+@media(max-width:640px){ .menu-grid { grid-template-columns:1fr; } }
+
+.menu-card {
+  background:rgba(255,255,255,.018);
+  border:1px solid var(--faint);
+  padding:2.2rem 2rem;
+  transition: border-color .3s, background .3s;
+  position:relative; overflow:hidden;
+}
+.menu-card::before {
+  content:''; position:absolute; top:0; left:0;
+  width:2px; height:100%;
+  background:linear-gradient(var(--red), transparent);
+  opacity:0; transition:opacity .3s;
+}
+.menu-card:hover { border-color:rgba(204,31,31,.3); background:rgba(204,31,31,.02); }
+.menu-card:hover::before { opacity:1; }
+
+.card-label {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:1.15rem; letter-spacing:.18em;
+  color:var(--red); margin-bottom:1.4rem;
+  text-transform:uppercase;
+}
+
+.menu-row {
+  display:flex; justify-content:space-between;
+  align-items:baseline; gap:1rem;
+  padding:.55rem 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.menu-row:last-child { border-bottom:none; }
+.row-name {
+  font-size:.9rem; font-weight:400;
+  color:var(--light); flex:1; line-height:1.4;
+}
+.row-sub {
+  font-size:.75rem; color:var(--muted);
+  display:block; margin-top:.15rem;
+}
+.row-price {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:1.05rem; letter-spacing:.05em;
+  color:rgba(232,224,218,.7); white-space:nowrap;
+}
+
+/* ─── ACCOMPAGNEMENTS ─── */
+#accompagnements { padding:6rem 2rem; background:var(--grey1); }
+
+/* ─── BOISSONS ─── */
+#boissons { padding:6rem 2rem; background:var(--black); }
+
+/* ─── FOOTER / CONTACT ─── */
+#contact {
+  padding:5rem 2rem 3rem;
+  background:var(--grey1);
+  border-top:1px solid var(--faint);
+}
+
+.footer-grid {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:1.2fr 1fr 1fr;
+  gap:4rem;
+  padding-bottom:3.5rem;
+  border-bottom:1px solid var(--faint);
+}
+@media(max-width:768px) { .footer-grid { grid-template-columns:1fr; gap:2.5rem; } }
+
+.ft-brand-name {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:2rem; letter-spacing:.1em;
+  color:var(--light); line-height:1;
+  margin-bottom:.8rem;
+}
+.ft-brand-name span {
+  font-family:'Pacifico', cursive;
+  font-size:1.7rem; color:var(--red); letter-spacing:.02em;
+}
+.ft-desc {
+  font-size:.85rem; color:var(--muted);
+  line-height:1.75; margin-bottom:1.8rem;
+}
+.ft-label {
+  font-size:.65rem; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:rgba(232,224,218,.3);
+  margin-bottom:.9rem;
+}
+.ft-social {
+  display:flex; align-items:center; gap:.55rem;
+  font-size:.88rem; color:rgba(232,224,218,.55);
+  text-decoration:none; margin-bottom:.5rem;
+  transition:color .25s;
+}
+.ft-social svg { width:14px; height:14px; opacity:.5; }
+.ft-social:hover { color:var(--red); }
+
+.ft-open {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:1.5rem; letter-spacing:.06em;
+  color:var(--light); margin-bottom:1rem;
+}
+.ft-hours {
+  display:flex; align-items:baseline; gap:1rem; margin-bottom:.6rem;
+}
+.ft-hours-lbl {
+  font-size:.62rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--red); min-width:40px;
+}
+.ft-hours-val {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:1.7rem; letter-spacing:.04em; color:var(--light);
+}
+.ft-rule { width:36px; height:2px; background:var(--red); opacity:.5; margin-top:1.2rem; }
+
+.ft-address {
+  font-size:.92rem; color:rgba(232,224,218,.65);
+  line-height:1.8; margin-bottom:1.4rem;
+}
+.ft-phone {
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:'Bebas Neue', sans-serif;
+  font-size:1.35rem; letter-spacing:.12em;
+  color:var(--light); text-decoration:none;
+  background:rgba(10,10,10,.75);
+  border:1px solid rgba(204,31,31,.25);
+  border-radius:50px;
+  padding:.6rem 1.6rem;
+  backdrop-filter:blur(8px);
+  box-shadow: 0 0 18px rgba(180,15,15,.15), inset 0 1px 0 rgba(255,255,255,.05);
+  transition: background .25s, border-color .3s, box-shadow .3s, color .25s;
+}
+.ft-phone svg { fill:var(--red); width:15px; height:15px; }
+.ft-phone:hover {
+  background:rgba(180,20,20,.25);
+  border-color:rgba(204,31,31,.6);
+  box-shadow: 0 0 28px rgba(180,15,15,.3), inset 0 1px 0 rgba(255,255,255,.05);
+  color:#fff;
+}
+
+.ft-bottom {
+  max-width:1100px; margin:2rem auto 0;
+  text-align:center;
+  font-size:.74rem; letter-spacing:.08em;
+  color:rgba(232,224,218,.2);
+}
+.ft-bottom strong { color:rgba(204,31,31,.5); }
+
+/* ─── LIGHTBOX ─── */
+#lightbox {
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,.93); cursor:zoom-out;
+  align-items:center; justify-content:center;
+  backdrop-filter:blur(8px);
+}
+#lightbox.open { display:flex; animation:lbIn .25s ease; }
+@keyframes lbIn { from{opacity:0} to{opacity:1} }
+#lb-img {
+  max-width:92vw; max-height:92vh;
+  border-radius:3px;
+  box-shadow:0 0 80px rgba(180,15,15,.25), 0 20px 60px rgba(0,0,0,.9);
+  animation:lbZoom .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes lbZoom { from{transform:scale(.8);opacity:0} to{transform:scale(1);opacity:1} }
+.lb-x {
+  position:fixed; top:1.5rem; right:2rem;
+  font-size:1.6rem; color:rgba(232,224,218,.6);
+  cursor:pointer; z-index:10000;
+  transition:color .2s, transform .2s;
+  font-family:'Outfit', sans-serif; font-weight:300;
+}
+.lb-x:hover { color:var(--red); transform:scale(1.15); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ─── RESPONSIVE NAV ─── */
+/* ─── MOBILE NAV : hamburger ─── */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1100;
+}
+.nav-burger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--light);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media(max-width:768px) {
+  /* NAV */
+  nav { padding: 0 1.2rem; }
+  .nav-burger { display: flex; }
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(16px);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 1rem 0 2rem;
+    border-bottom: 1px solid var(--faint);
+    z-index: 1050;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; text-align: center; }
+  .nav-links a {
+    display: block;
+    padding: .9rem 1rem;
+    font-size: .85rem;
+    letter-spacing: .2em;
+    border-bottom: 1px solid var(--faint);
+  }
+
+  /* HERO */
+  #hero { padding: 7rem 1.5rem 3rem; }
+  .hero-title .t1 { font-size: clamp(4rem,20vw,7rem); }
+  .hero-title .t2 { font-size: clamp(3.5rem,18vw,6rem); }
+  .hero-sub { font-size: .72rem; letter-spacing: .2em; margin-top: 2rem; margin-bottom: 2rem; }
+  .hero-infos { flex-direction: column; align-items: center; gap: .7rem; }
+  .hero-pill { font-size: .78rem; padding: .45rem .9rem; }
+  .hero-badge { font-size: .74rem; letter-spacing: .08em; margin-top: 5rem; }
+  .hero-halal { width: 64px; right: 1.2rem; bottom: 9rem; }
+
+  /* SECTIONS */
+  #carte, #menu, #accompagnements, #boissons { padding: 4rem 1.2rem; }
+  #contact { padding: 3.5rem 1.2rem 2.5rem; }
+  .section-wrap { padding: 0; }
+
+  /* SECTION HEADERS */
+  .sec-head { margin-bottom: 2.5rem; }
+  .sec-head h2 { font-size: clamp(1.8rem,8vw,2.8rem); }
+  .sec-head .script { font-size: clamp(1.4rem,6vw,2rem); }
+
+  /* MENU CARDS */
+  .menu-grid { grid-template-columns: 1fr; gap: 1px; }
+  .menu-card { padding: 1.6rem 1.2rem; }
+  .card-label { font-size: 1rem; margin-bottom: 1rem; }
+  .row-name { font-size: .85rem; }
+  .row-price { font-size: .95rem; }
+
+  /* CARTE IMAGE */
+  .carte-inner { max-width: 72%; }
+  .carte-thumb img { max-width: 100%; }
+
+  /* FOOTER */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 2.5rem;
+  }
+  .ft-brand-name { font-size: 1.6rem; }
+  .ft-brand-name span { font-size: 1.4rem; }
+  .ft-open { font-size: 1.2rem; }
+  .ft-hours-val { font-size: 1.4rem; }
+  .ft-phone { font-size: 1.1rem; padding: .5rem .9rem; }
+  .ft-desc { font-size: .8rem; }
+  .ft-bottom { font-size: .68rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">GRILL <span>ça.</span></a>
+  <div class="nav-burger" id="burger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#carte" onclick="closeNav()">La Carte</a></li>
+    <li><a href="#menu" onclick="closeNav()">Brochettes</a></li>
+    <li><a href="#accompagnements" onclick="closeNav()">Accompagnements</a></li>
+    <li><a href="#boissons" onclick="closeNav()">Boissons</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" style="background-image:url('grill1.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
+  <div class="hero-overlay"></div>
+  <div id="embers"></div>
+
+
+
+  <h1 class="hero-title">
+    <span class="t1">GRILL</span>
+    <span class="t2">ça.</span>
+  </h1>
+
+  <p class="hero-sub" style="font-family:'Pacifico', cursive; letter-spacing:0.05em; text-transform:none; font-size:clamp(1.4rem,4.5vw,2.2rem); text-shadow:none; opacity:1; color:var(--light);">
+  <span style="color:var(--light);">Le feu.</span>
+  <span style="color:var(--red);"> La viande.</span>
+  <span style="color:var(--light);"> L'essentiel.</span>
+</p>
+
+  <div class="hero-infos">
+    <a href="tel:0983445678" class="hero-pill">
+      <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      09 83 44 56 78
+    </a>
+
+  </div>
+
+  <img src="halal.png" alt="100% Halal" class="hero-halal">
+
+  <div class="hero-badge">
+    Ouvert <strong>Vendredi · Samedi · Dimanche</strong> &nbsp;—&nbsp; 19h00 à 2h00
+  </div>
+</section>
+
+<!-- CARTE -->
+<section id="carte" style="position:relative;background-image:url('grill.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;">
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(10,10,10,0.70),rgba(10,10,10,0.82));z-index:1;"></div>
+  <div class="section-wrap" style="position:relative;z-index:2;">
+    <div class="sec-head">
+      <h2>LA <span class="script">carte.</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="carte-inner">
+      <p class="carte-hint-text">Cliquez pour agrandir</p>
+      <div class="carte-thumb" onclick="openLb()">
+        <img src="image3.jpeg" alt="La carte Grill ça." />
+        <div class="carte-overlay"></div>
+        <div class="carte-pip">＋</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU : BROCHETTES & PLATS -->
+<section id="menu" style="position:relative;background-image:url('brochette.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;">
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(10,10,10,0.75),rgba(10,10,10,0.88));z-index:1;"></div>
+  <div class="section-wrap" style="position:relative;z-index:2;">
+    <div class="sec-head">
+      <h2>BROCHETTES <span class="script">&amp; plats.</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="card-label">Brochettes</div>
+        <div class="menu-row"><span class="row-name">Brochette de Poulet</span><span class="row-price">1,00 €</span></div>
+        <div class="menu-row"><span class="row-name">Brochette de Bœuf</span><span class="row-price">1,50 €</span></div>
+        <div class="menu-row"><span class="row-name">Brochette d'Agneau</span><span class="row-price">2,00 €</span></div>
+      </div>
+      <div class="menu-card">
+        <div class="card-label">Plats</div>
+        <div class="menu-row"><span class="row-name">Mafé</span><span class="row-price">10,00 €</span></div>
+        <div class="menu-row"><span class="row-name">Tieb Poulet</span><span class="row-price">10,00 €</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCOMPAGNEMENTS & SAUCES -->
+<section id="accompagnements" style="position:relative;background-image:url('frites_1.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;">
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(10,10,10,0.75),rgba(10,10,10,0.88));z-index:1;"></div>
+  <div class="section-wrap" style="position:relative;z-index:2;">
+    <div class="sec-head">
+      <h2>ACCOMPAGNEMENTS <span class="script">&amp; sauces.</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="card-label">Accompagnements</div>
+        <div class="menu-row"><span class="row-name">Banane Plantain</span><span class="row-price">4,50 €</span></div>
+        <div class="menu-row"><span class="row-name">Frites</span><span class="row-price">4,50 €</span></div>
+        <div class="menu-row"><span class="row-name">Pastel x5</span><span class="row-price">3,50 €</span></div>
+        <div class="menu-row"><span class="row-name">Chikwangue (Manioc)</span><span class="row-price">4,00 €</span></div>
+        <div class="menu-row"><span class="row-name">5 Beignets (Mikaté)</span><span class="row-price">3,50 €</span></div>
+
+      </div>
+      <div class="menu-card">
+        <div class="card-label">Sauces &amp; Condiments</div>
+        <div class="menu-row"><span class="row-name">Sauce Verte</span><span class="row-price">1,50 €</span></div>
+        <div class="menu-row"><span class="row-name">Poudre Kankan</span><span class="row-price">0,50 €</span></div>
+        <div class="menu-row"><span class="row-name">Ketchup, Mayonnaise</span><span class="row-price">0,25 €</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOISSONS & DESSERTS -->
+<section id="boissons" style="position:relative;background-image:url('coca.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;">
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(10,10,10,0.75),rgba(10,10,10,0.88));z-index:1;"></div>
+  <div class="section-wrap" style="position:relative;z-index:2;">
+    <div class="sec-head">
+      <h2>BOISSONS <span class="script">&amp; desserts.</span></h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="card-label">Boissons</div>
+        <div class="menu-row"><span class="row-name">Bissap</span><span class="row-price">3,00 €</span></div>
+        <div class="menu-row"><span class="row-name">Gingembre</span><span class="row-price">3,00 €</span></div>
+        <div class="menu-row">
+          <span class="row-name">Coca-Cola, Coca Zero, Ice Tea, Oasis Tropical, Oasis PCF, Orangina, Perrier<span class="row-sub">au choix</span></span>
+          <span class="row-price">2,00 €</span>
+        </div>
+        <div class="menu-row"><span class="row-name">Bouteille d'Eau</span><span class="row-price">1,50 €</span></div>
+      </div>
+      <div class="menu-card">
+        <div class="card-label">Desserts</div>
+        <div class="menu-row">
+          <span class="row-name">Tiramisu<span class="row-sub">Oreo · Kinder Bueno · Spéculoos · Daim</span></span>
+          <span class="row-price">4,00 €</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / FOOTER -->
+<section id="contact" style="position:relative;background-image:url('fleche_1.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;">
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(10,10,10,0.78),rgba(10,10,10,0.90));z-index:1;"></div>
+  <div class="footer-grid" style="position:relative;z-index:2;">
+
+    <div>
+      <div class="ft-brand-name">GRILL <span>ça.</span></div>
+      <p class="ft-desc">Brochettes &amp; grillades Halal authentiques à Corbeil-Essonnes.<br>Du feu, de la viande, du caractère.</p>
+      <p class="ft-label">Nos réseaux</p>
+      <a href="https://www.instagram.com/grill_ca?igsh=dmRlanh1NHB4MXRw" target="_blank" class="ft-social">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163c-3.259 0-3.667.014-4.947.072-1.613.074-3.067.372-4.204 1.508C1.712 2.716 1.414 4.17 1.34 5.783 1.282 7.063 1.268 7.471 1.268 12s.014 4.937.072 6.217c.074 1.613.372 3.067 1.508 4.204 1.137 1.136 2.591 1.434 4.204 1.508C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.613-.074 3.067-.372 4.204-1.508 1.136-1.137 1.434-2.591 1.508-4.204.058-1.28.072-1.688.072-6.217s-.014-4.937-.072-6.217c-.074-1.613-.372-3.067-1.508-4.204C19.014.386 17.56.088 15.947.014 14.667-.044 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        grill_ca
+      </a>
+      <a href="https://www.tiktok.com/@grillca91?_r=1&_t=ZN-94HvvwdXVB8" target="_blank" class="ft-social">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.26 8.26 0 0 0 4.83 1.56V6.82a4.85 4.85 0 0 1-1.06-.13z"/></svg>
+        @grillca91
+      </a>
+      <a href="https://www.snapchat.com/add/grillca91" target="_blank" class="ft-social">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.065 0C8.267 0 5.6 2.235 5.6 6.135v.435l-1.395.24c-.18.03-.315.195-.315.375 0 .225.165.42.39.45l1.32.195v.03c-.045.135-.12.285-.225.48-.315.57-.84 1.53-.84 2.94 0 .705.135 1.38.405 2.01-.105.135-.27.225-.45.225-.315 0-.645-.15-.9-.435-.135-.15-.315-.225-.51-.225-.225 0-.435.09-.585.255-.21.225-.285.54-.195.84.165.555.705.93 1.44 1.005.465.045.81.42.855.885.015.195.135.375.315.465.435.225 1.005.345 1.695.345.54 0 1.125-.075 1.74-.225.645.48 1.41.735 2.205.735.795 0 1.56-.255 2.205-.735.615.15 1.2.225 1.74.225.69 0 1.26-.12 1.695-.345.18-.09.3-.27.315-.465.045-.465.39-.84.855-.885.735-.075 1.275-.45 1.44-1.005.09-.3.015-.615-.195-.84-.15-.165-.36-.255-.585-.255-.195 0-.375.075-.51.225-.255.285-.585.435-.9.435-.18 0-.345-.09-.45-.225.27-.63.405-1.305.405-2.01 0-1.41-.525-2.37-.84-2.94-.105-.195-.18-.345-.225-.48v-.03l1.32-.195c.225-.03.39-.225.39-.45 0-.18-.135-.345-.315-.375l-1.395-.24V6.12C18.465 2.235 15.798 0 12 0h.065z"/></svg>
+        grillca91
+      </a>
+      <a href="https://www.ubereats.com/fr/store/grill-ca/f0eN2y2sRmGgDwfdmjrfKA?srsltid=AfmBOoqPpxAG0yRP7NJRwMrwkjVD9OWyZnB3YtUY1-T8CKLzg4yAwjvP" target="_blank" class="ft-social">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 22L6 8L18 8L18 22L6 22Z" stroke="currentColor" fill="none" stroke-width="2"/><path d="M8 8L8 4C8 2 10 2 12 2C14 2 16 2 16 4L16 8" stroke="currentColor" fill="none" stroke-width="2"/></svg>
+        Uber Eats
+      </a>
+      <a href="https://deliveroo.fr/fr/menu/paris/corbeil-essonnes/grill-ca-28-rue-saint-spire" target="_blank" class="ft-social">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 22L6 8L18 8L18 22L6 22Z" stroke="currentColor" fill="none" stroke-width="2"/><path d="M8 8L8 4C8 2 10 2 12 2C14 2 16 2 16 4L16 8" stroke="currentColor" fill="none" stroke-width="2"/></svg>
+        deliveroo
+      </a>
+    </div>
+
+    <div>
+      <p class="ft-label">Nos Horaires</p>
+      <p class="ft-open">Vendredi → Dimanche</p>
+      <div class="ft-hours">
+        <span class="ft-hours-lbl">Soir</span>
+        <span class="ft-hours-val">19h00 – 2h00</span>
+      </div>
+      <div class="ft-rule"></div>
+    </div>
+
+    <div>
+      <p class="ft-label">Nous trouver</p>
+      <a href="https://maps.google.com/?q=28+Rue+Saint-Spire,+91100+Corbeil-Essonnes" target="_blank" class="ft-address" style="text-decoration:none; transition:color .25s; display:block; margin-bottom:1.4rem;">28 Rue Saint-Spire<br>91100 Corbeil-Essonnes</a>
+      <a href="tel:0983445678" class="ft-phone">
+        <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        09 83 44 56 78
+      </a>
+    </div>
+
+  </div>
+  <div class="ft-bottom" style="position:relative;z-index:2;">
+    <p>&copy; 2025 <strong>Grill ça.</strong> · Corbeil-Essonnes · Tous droits réservés</p>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLb()">
+  <div class="lb-x" onclick="closeLb(event)">&#x2715;</div>
+  <img id="lb-img" src="image3.jpeg" alt="La carte Grill ça." />
+</div>
+
+<script>
+  // Burger menu
+  function toggleNav() {
+    document.getElementById('burger').classList.toggle('open');
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  function closeNav() {
+    document.getElementById('burger').classList.remove('open');
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  // Embers
+  const ec = document.getElementById('embers');
+  const cols = ['#dd2200','#cc1a00','#bb3311','#992200','#cc0000','#aa0000','#dd2211','#cc4422'];
+  for (let i = 0; i < 36; i++) {
+    const e = document.createElement('div');
+    e.className = 'ember';
+    const sz = 1.5 + Math.random() * 3.5;
+    const col = cols[Math.floor(Math.random() * cols.length)];
+    const dx = (Math.random() - 0.5) * 100;
+    e.style.cssText = `
+      left:${5 + Math.random() * 90}%;
+      width:${sz}px; height:${sz}px;
+      background:${col};
+      box-shadow:0 0 ${sz*1.5}px ${col};
+      animation-duration:${4 + Math.random() * 7}s;
+      animation-delay:-${Math.random() * 8}s;
+      --dx:${dx}px;
+      opacity:0;
+    `;
+    ec.appendChild(e);
+  }
+
+  // Lightbox
+  function openLb() {
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb(e) {
+    if(e) e.stopPropagation();
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeLb(); });
+
+  // Nav active
+  const secs = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(en.isIntersecting) links.forEach(l => {
+        l.style.color = l.getAttribute('href') === '#'+en.target.id ? 'var(--light)' : '';
+      });
+    });
+  }, {threshold:0.4}).observe && secs.forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if(en.isIntersecting) links.forEach(l => {
+          l.style.color = l.getAttribute('href') === '#'+en.target.id ? 'var(--light)' : '';
+        });
+      });
+    }, {threshold:0.4}).observe(s);
+  });
+</script>
+
+</body>
+</html>
